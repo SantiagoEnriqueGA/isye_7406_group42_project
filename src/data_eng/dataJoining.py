@@ -33,7 +33,7 @@ df_apartments_with_zip.rename(columns={'ZIP_CODE': 'zipcode'}, inplace=True)    
 # Zip Code Data
 # ------------------------------------------------------------------------------------
 # Load IRS income data
-df_irs = pd.read_csv("data_source/20zpallagi.csv")
+df_irs = pd.read_csv("data_source/21zpallagi.csv")
 df_irs = df_irs[['STATEFIPS', 'STATE', 'zipcode', 'agi_stub', 'N1']]                        # Select relevant columns from IRS dataset
 zip_return_counts = df_irs.groupby('zipcode')['N1'].sum().reset_index(name='num_returns')   # Group by ZIP code to get the total number of tax returns filed in each ZIP code
 

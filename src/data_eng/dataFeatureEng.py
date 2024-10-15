@@ -35,6 +35,9 @@ for amenity in unique_amenities:
 
 df.columns = original_columns + amenity_colnames.tolist()                                   # Rename the newly added columns to reflect the amenity names
 
+# Add a new column for the total count of amenities (has_count)
+df['has_count'] = df[amenity_colnames].sum(axis=1)
+
 
 # Group cities with fewer than 50 listings into an 'Other' category
 # ------------------------------------------------------------------------------------
@@ -74,8 +77,8 @@ df = df.drop(columns=columns_to_drop)
 # ------------------------------------------------------------------------------------
 # Key columns to check for missing values
 columns_to_check = [
-    'price', 'zipcode', 'perc_sub25k', 'bedrooms', 
-    'bathrooms', 'POPULATION', 'state'
+    'price', 'zipcode', 'perc_sub25k', 'perc_50_75k', 'perc_75_100k', 'perc_100_200k', 
+    'bedrooms', 'bathrooms', 'POPULATION', 'state'
 ]
 # Drop rows with missing values in any of the specified columns
 df = df.dropna(subset=columns_to_check) 
