@@ -1,3 +1,9 @@
+# Data sources:
+
+# UC Irvine Machine Learning Repository:    https://archive.ics.uci.edu/dataset/555/apartment+for+rent+classified
+# USA ZIP Code Areas:                       https://www.arcgis.com/home/item.html?id=8d2012a2016e484dafaac0451f9aea24
+# Individual income tax statistics - 2021:  https://www.irs.gov/statistics/soi-tax-stats-individual-income-tax-statistics-2021-zip-code-data-soi-0
+
 import pandas as pd
 import geopandas as gpd
 

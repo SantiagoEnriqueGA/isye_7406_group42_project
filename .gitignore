@@ -1,7 +1,7 @@
 
-# Ignore data folders
-*data_m*/
-*data_s*/
-
 # Ignore models 
 *models*/
+
+# Ignore data
+data_s*/
+data_m*/

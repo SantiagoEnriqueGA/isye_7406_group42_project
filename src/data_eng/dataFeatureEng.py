@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 
 # Load the merged data from CSV file
 df = pd.read_csv(
@@ -83,6 +84,10 @@ columns_to_check = [
 # Drop rows with missing values in any of the specified columns
 df = df.dropna(subset=columns_to_check) 
 
+# # log(1 + x) transformation for skewed data
+df['log1p_price'] = np.log1p(df['price'])
+df['log1p_square_feet'] = np.log1p(df['square_feet'])
+# df['log1p_POP_SQMI'] = np.log1p(df['POP_SQMI'])
 
 print(df.isnull().sum())
 
