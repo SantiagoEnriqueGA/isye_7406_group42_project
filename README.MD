@@ -80,3 +80,84 @@ Output:
 - **Plots**: A wide variety of histograms, count plots, correlation heatmaps, and regression plots for both numerical and categorical features, allowing for in-depth insights into the data structure and potential feature importance.
 
 
+## Files in src/modeling
+
+### models_default.py
+
+This script trains and evaluates several regression models using default parameters to predict apartment rental prices. The key steps include:
+
+1. **Data Loading**: Reads the engineered dataset from `engineered_data.csv`.
+2. **Categorical Variable Handling**: Converts specified columns (e.g., `bathrooms`, `bedrooms`, `cityname`) to categorical types and performs one-hot encoding.
+3. **Log Transformation**: Applies log transformation to the target variable `price` to handle skewness.
+4. **Data Splitting**: Divides the dataset into training and testing sets with a 70-30 split.
+Here's the updated step with the inline note:
+5. **Log Transformation**: Applies log transformation to the target variable `price` using `log(1 + price)` to handle skewness in the price distribution, which stabilizes variance and makes the data more normally distributed. The transformation is later reversed after predictions to retrieve values on the original price scale.
+6. **Feature Scaling**: Standardizes the features using `StandardScaler`.
+7. **Model Training**:
+   - Trains several regression models including Ridge, Lasso, Decision Tree, Random Forest, HistGradientBoosting, and XGBoost.
+   - Each model is trained using default parameters and evaluated on the test set.
+8. **Metrics Calculation**: Evaluates the performance of the models using:
+   - **R-squared**: Measures the proportion of variance explained by the model.
+   - **Mean Squared Error (MSE)**: Quantifies the average squared difference between the predicted and actual values.
+   - **Median Absolute Error (MedAE)**: Represents the median of the absolute errors between predicted and actual values.
+   - **Mean Absolute Error (MAE)**: Provides the average magnitude of errors in predictions.
+9. **Model Saving**: Saves each trained model as a `.pkl` file for future use.
+10. **Results Summary**: Outputs a summary of model performance metrics and time taken for each model.
+
+Output: 
+- Trained models saved in `models/base/` directory as `.pkl` files. 
+- Performance metrics for each model printed to the console.
+
+
+### models_tuned.py
+
+This script performs hyperparameter tuning on several regression models to predict apartment rental prices. The key steps include:
+
+1. **Data Loading**: Reads the engineered dataset from `engineered_data.csv`.
+2. **Categorical Variable Handling**: Converts specified columns (e.g., `bathrooms`, `bedrooms`, `cityname`) to categorical types and applies one-hot encoding.
+3. **Log Transformation**: Applies log transformation to the target variable `price` to handle skewness.
+4. **Data Splitting**: Divides the dataset into training and testing sets with a 70-30 split.
+5. **Log Transformation**: Applies log transformation to the target variable `price` using `log(1 + price)` to handle skewness in the price distribution, which stabilizes variance and makes the data more normally distributed. The transformation is later reversed after predictions to retrieve values on the original price scale.
+6. **Feature Scaling**: Standardizes the features using `StandardScaler`.
+7. **Model Training and Tuning**:
+   - Implements hyperparameter tuning for the following models:
+     - Ridge Regression
+     - Lasso Regression
+     - Decision Tree
+     - Random Forest
+     - Hist Gradient Boosting
+     - XGBoost
+   - Each model's hyperparameters are tuned using `GridSearchCV` with 5-fold cross-validation and the negative mean squared error as the scoring metric.
+8. **Metrics Calculation**: Evaluates the performance of the tuned models using:
+   - **R-squared**: Measures the proportion of variance explained by the model.
+   - **Mean Squared Error (MSE)**: Quantifies the average squared difference between predicted and actual values.
+   - **Median Absolute Error (MedAE)**: Represents the median of the absolute errors between predicted and actual values.
+   - **Mean Absolute Error (MAE)**: Provides the average magnitude of errors in predictions.
+9. **Model and Parameter Saving**: Saves the best-tuned model for each algorithm as a `.pkl` file and prints the best hyperparameters for each model.
+10. **Results Summary**: Outputs a summary of model performance metrics and the best parameters for each model.
+
+Output: 
+- Tuned models saved in `models/tuned/` directory as `.pkl` files.
+- Performance metrics for each tuned model printed to the console. 
+- Best hyperparameters for each model printed to the console.
+
+### models_importance.py
+
+This script calculates and plots the feature importances for various regression models used to predict apartment rental prices. The key steps include:
+
+1. **Data Loading**: Reads the preprocessed dataset from `engineered_data.csv`.
+2. **Categorical Variable Handling**: Converts specified columns (e.g., `bathrooms`, `bedrooms`, `cityname`, `state`, etc.) to categorical types and applies one-hot encoding.
+3. **Log Transformation**: Applies a log transformation to the target variable `price` using `log(1 + price)` to handle skewness.
+4. **Data Splitting**: Divides the dataset into training and testing sets with a 70-30 split, focusing on the test set for feature importance calculation.
+5. **Model Loading**: Loads trained models from the `models/base/` or `models/tuned/` directory for analysis, including Ridge Regression, Lasso Regression, Decision Tree, Random Forest, and XGBoost.
+6. **Feature Importance Calculation**:
+   - **Tree-Based Models**: Extracts feature importances directly using `feature_importances_` for models like Decision Tree, Random Forest, and XGBoost.
+   - **Coefficient-Based Models**: For Ridge and Lasso, feature importances are calculated as the absolute values of the model coefficients.
+   - **Permutation-Based Importance**: For models without native feature importance (e.g., Hist Gradient Boosting), permutation importance is computed by randomly shuffling feature values and observing the impact on model performance.
+7. **Plotting**: Generates bar plots for the top 20 feature importances for each model.
+8. **Saving Results**: Saves the calculated feature importances in a CSV file located in the `models/tuned/` directory.
+
+Output:
+- **CSV File**: `feature_importance_results.csv` in the `models/base/` or `models/tuned/` directory, containing the feature importance values for each model.
+- **Plots**: Bar plots of the top 20 feature importances for each model displayed in the console.
+
